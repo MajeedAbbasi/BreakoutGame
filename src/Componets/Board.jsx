@@ -15,6 +15,7 @@ let { ballObj, paddleProps, brickObj } = data;
 const Board = () => {
   const canvasRef = useRef(null);
   useEffect(() => {
+    let bonusPoint = false;
     let { ballObj, player } = data;
     const ballObj2 = {
       x: 20,
@@ -71,6 +72,10 @@ const Board = () => {
           if (hitColor == bricks[i].color) {
             hitColor = bricks[i].color;
             player.score += 20;
+            bonusPoint = true;
+            setTimeout(() => {
+              bonusPoint = false;
+            }, 1000);
           } else {
             hitColor = bricks[i].color;
             player.score += 10;
@@ -90,11 +95,20 @@ const Board = () => {
           if (hitColor == bricks[i].color) {
             hitColor = bricks[i].color;
             player.score += 20;
+            bonusPoint = true;
+            setTimeout(() => {
+              bonusPoint = false;
+            }, 1000);
           } else {
             hitColor = bricks[i].color;
             player.score += 10;
           }
         }
+      }
+      if (bonusPoint) {
+        ctx.font = "20px, Arial";
+        ctx.fillStyle = "red";
+        ctx.fillText("Bonus +20", canvas.width / 2 - 50, canvas.height / 2);
       }
 
       Paddle(ctx, canvas, paddleProps);
